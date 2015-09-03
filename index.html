@@ -4,27 +4,61 @@
 <meta charset="UTF-8">
 <title>Wikipedia Viewer</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!--<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/0.10.0/angular-material.min.css">-->
-<link rel="stylesheet" href="vendor/angular-material.min.css">
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/0.10.0/angular-material.min.css">
 <link href='style.css' rel='stylesheet' type='text/css'>
 </head>
 <body>
 
-<div ng-app="WikipediaViewer" ng-controller="AppCtrl as appCtrl">
-
-
+<div ng-app="WikipediaViewer" ng-controller="AppCtrl as ctrl" layout="column">
+  <md-content class="md-padding">
+  <h3>Wikipedia Viewer</h3>
+  <md-button class="md-primary" ng-click="ctrl.randomGet()">Random pages</md-button>
+    <form ng-submit="$event.preventDefault()" id="searchForm" name="searchForm">
+      <md-autocomplete flex required
+          md-input-name="autocompleteField"
+		  md-input-minlength="3"
+		  md-input-maxlength="30"
+          md-no-cache="false"
+          md-selected-item="ctrl.selectedItem"
+          md-search-text-change="ctrl.searchTextChange(ctrl.searchText)"
+          md-search-text="ctrl.searchText"
+          md-selected-item-change="ctrl.selectedItemChange(item)"
+          md-items="item in ctrl.querySearch(ctrl.searchText)"
+          md-item-text="item.title"
+          placeholder="Search WIKI"
+		  md-floating-label="Search WIKI">
+        <md-item-template>
+          <span md-highlight-text="ctrl.searchText" md-highlight-flags="^i">{{item.title}}</span>
+        </md-item-template>
+        <md-not-found>
+          No matches found for "{{ctrl.searchText}}".
+        </md-not-found>
+		<!--
+		<div ng-messages="searchForm.autocompleteField.$error" ng-if="searchForm.autocompleteField.$touched">
+            <div ng-message="required">You <b>must</b> have a favorite state.</div>
+            <div ng-message="minlength">Your entry is not long enough.</div>
+            <div ng-message="maxlength">Your entry is too long.</div>
+        </div>
+		-->
+      </md-autocomplete>
+    </form>
+	<md-list-item class="md-3-line"  ng-repeat="item in ctrl.result">
+        <img ng-src="{{item.thumbnail.source}}" class="md-avatar" alt="{{item.title}}" />
+        <a ng-href="http://en.wikipedia.org/?curid={{item.pageid}}" target="_blank"><div class="md-list-item-text">
+          <h3>{{item.title}}</h3>
+          <p>{{item.extract}}</p>
+        </div></a>
+    </md-list-item>
+  </md-content>
 </div>
-<!--
+
+
+
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular-animate.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular-aria.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/angular_material/0.10.0/angular-material.min.js"></script>
 <script src="app.js"></script>
--->
-<script src="vendor/angular.min.js"></script>
-<script src="vendor/angular-animate.min.js"></script>
-<script src="vendor/angular-aria.min.js"></script>
-<script src="vendor/angular-material.min.js"></script>
-<script src="app.js"></script>
+
 </body>
 </html>
