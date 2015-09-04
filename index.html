@@ -42,13 +42,15 @@
 		-->
       </md-autocomplete>
     </form>
-	<md-list-item class="md-3-line"  ng-repeat="item in ctrl.result">
+	<md-list>
+	<md-list-item class="md-2-line"  ng-repeat="item in ctrl.result">
         <img ng-src="{{item.thumbnail.source}}" class="md-avatar" alt="{{item.title}}" />
         <a ng-href="http://en.wikipedia.org/?curid={{item.pageid}}" target="_blank"><div class="md-list-item-text">
           <h3>{{item.title}}</h3>
           <p>{{item.extract}}</p>
         </div></a>
     </md-list-item>
+	<md-list>
   </md-content>
 </div>
 
